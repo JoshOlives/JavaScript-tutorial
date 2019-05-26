@@ -1,7 +1,7 @@
 function spit(array) {
     if (typeof(array)=== 'object')
-        array.forEach(ele => { // brackets optional
-            console.log(ele);
+        array.forEach(ele => {console.log(ele);// brackets optional
+        //console.log(ele);
         });
     else
     {
