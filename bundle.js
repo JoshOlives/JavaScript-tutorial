@@ -1,11 +1,26 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 let Phrase = require("olive-palindrome");
-let string = prompt("Please enter a string to test if palindrome")
-let phrase = new Phrase(string);
-if (phrase.palindrome(true, true)) {
-    alert(`${phrase.content} is a palindrome.`);
-}
-else { alert(`${phrase.content} is not a palindrome.`) }
+
+function palindromeTester() {
+    //makinig form not refresh
+    event.preventDefault();
+    let string = event.target.phrase.value;
+    let phrase = new Phrase(string);
+    let result = document.getElementById("result");
+    if (phrase.palindrome(true, true)) {
+        result.innerHTML = `"<strong>${phrase.content}</strong>" is a palindrome.`;
+    }
+    else { 
+        result.innerHTML = `"<strong>${phrase.content}</strong>" is not a palindrome.`; 
+        }
+    }
+
+document.addEventListener("DOMContentLoaded", function() {
+    let tester = document.querySelector("#palindromeTester");
+    tester.addEventListener("submit", function(event) {
+        palindromeTester(event); 
+    });
+});
 //alert(new Phrase(string).palindrome(true, true));
 //alert(new Phrase("Madam, I'm Adam.").palindrome(true, true));
 },{"olive-palindrome":2}],2:[function(require,module,exports){
@@ -55,6 +70,7 @@ function Phrase(content = '') {
     //
     this.palindrome = function palindrome( sens = true, punc = false) {
         //ugly cause of options. look up case switch might be better though
+        if(this.content.blank()) {return false}
         let judge = this.content;
         if (punc) {
             judge = this.letters();
@@ -100,7 +116,8 @@ Phrase.quiet = function (strings) {
         }
 };
 
-console.log(Phrase.quiet('sSDSFSD'));
+//Debugging
+//console.log(Phrase.quiet('sSDSFSD'));
 
 //doesnt work with case sensitive
 function TranslatedPhrase(content, translation) {
