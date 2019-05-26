@@ -1,0 +1,27 @@
+#!/home/ec2-user/.nvm/versions/node/v6.16.0/bin/node
+
+//will ignore non<p> like <a> !!!
+
+const request = require("request");
+let url = process.argv[2];
+if (url === undefined) {
+    console.log("please input a url");
+    process.exit();
+}
+const jsdom = require("jsdom");
+const {JSDOM} = jsdom;
+
+console.log(url);
+
+request(url, function(error, resp, body) {
+    //hm?
+    let {document} = (new JSDOM(body)).window;
+    
+    //grab all paragraphs and refrences from url
+    let paragraphs = document.querySelectorAll("p");
+    //remember the two are tied
+    let references = document.querySelectorAll(".reference");
+    
+    references.forEach(x => x.remove());
+    paragraphs.forEach(x => console.log(x.textContent));
+});

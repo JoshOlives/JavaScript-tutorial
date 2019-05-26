@@ -1,0 +1,26 @@
+#!/home/ec2-user/.nvm/versions/node/v6.16.0/bin/node
+
+
+let request = require('request');
+let Phrase = require("olive-palindrome");
+let url = 'https://cdn.learnenough.com/phrases.txt';
+let fs = require("fs");
+
+request(url, function (error, response, body) {
+  //console.log('error:', error); // Print the error if one occurred
+  // Print the response status code if a response was received
+  //console.log('statusCode:', response && response.statusCode);
+  let texts = body.split("\n").filter( x => { 
+    return new Phrase (x).palindrome(true, true);
+    });
+    
+    //console.log(texts.join("\n"));
+    texts.forEach( x => console.log("palindrome detected:", x));
+fs.writeFile("palindromeURL.txt", texts.join("\n"), function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+    });
+});

@@ -1,0 +1,27 @@
+#!/home/ec2-user/.nvm/versions/node/v6.16.0/bin/node
+
+let fs = require("fs");
+let Phrase = require("olive-palindrome");
+
+let text = fs.readFileSync("phrases.txt", "utf-8");
+let texts = text.split("\n").filter( x => { 
+return new Phrase (x).palindrome(true, true)
+});
+console.log(texts.join("\n"));
+
+fs.writeFile("palindromePhrases.txt", texts.join("\n"), function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+}); 
+
+/* tutorial's way
+
+text.split("\n").forEach(function(line) {
+  let phrase = new Phrase(line);
+  if (phrase.palindrome()) {
+    console.log("palindrome detected:", line);
+  }
+}); */
